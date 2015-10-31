@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,8 +26,6 @@ public class CustomView extends View {
     //initial color
     private int paintColor = 0xFF660000;
 
-    //flag to set erase mode
-    private boolean erase=false;
 
     //canvas - holding pen, holds your drawings
     //and transfers them to the view
@@ -107,18 +103,6 @@ public class CustomView extends View {
         return true;
     }
 
-    /** Set erase true or false */
-    public void setErase(boolean isErase){
-        erase=isErase;
 
-        if(erase) drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        else drawPaint.setXfermode(null);
-    }
-
-    /** Start new Drawing */
-    public void startNew(){
-        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        invalidate();
-    }
 
 }
