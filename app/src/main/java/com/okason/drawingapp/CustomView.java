@@ -1,47 +1,40 @@
 package com.okason.drawingapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by Valentine on 10/27/2015.
- */
+import java.util.ArrayList;
+
 public class CustomView extends View {
 
-    //drawing path
-    private Path drawPath;
-
-    //defines what to draw
+    private Path path;
     private Paint canvasPaint;
-
-    //defines how to draw
     private Paint drawPaint;
-
-    //initial color
     private int paintColor = 0xFF660000;
-
-
-    //canvas - holding pen, holds your drawings
-    //and transfers them to the view
     private Canvas drawCanvas;
-
-    //canvas bitmap
     private Bitmap canvasBitmap;
-
-    //brush size
     private float currentBrushSize, lastBrushSize;
+    private ArrayList<Path> paths = new ArrayList<Path>();
+    private ArrayList<Path> undonePaths = new ArrayList<Path>();
+    private float mX, mY;
+    private static final float TOUCH_TOLERANCE = 4;
 
     private void init(){
         currentBrushSize = getResources().getInteger(R.integer.medium_size);
         lastBrushSize = currentBrushSize;
 
-        drawPath = new Path();
+        path = new Path();
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
@@ -49,7 +42,6 @@ public class CustomView extends View {
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
         canvasPaint = new Paint(Paint.DITHER_FLAG);
 
     }
@@ -63,7 +55,22 @@ public class CustomView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        canvas.drawPath(drawPath, drawPaint);
+        canvas.drawPath(path, drawPaint);
+    }
+
+    public void setBrushSize(float newSize) {
+        float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                newSize, getResources().getDisplayMetrics());
+        currentBrushSize = pixelAmount;
+        drawPaint.setStrokeWidth(newSize);
+    }
+
+    public void setOpacity(int opacity) {
+        drawPaint.setAlpha(opacity);
+    }
+
+    public void setColor(int color) {
+        drawPaint.setColor(color);
     }
 
     @Override
@@ -85,15 +92,15 @@ public class CustomView extends View {
         //respond to down, move and up events
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                drawPath.moveTo(touchX, touchY);
+                path.moveTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
-                drawPath.lineTo(touchX, touchY);
+                path.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
-                drawPath.lineTo(touchX, touchY);
-                drawCanvas.drawPath(drawPath, drawPaint);
-                drawPath.reset();
+                path.lineTo(touchX, touchY);
+                drawCanvas.drawPath(path, drawPaint);
+                path.reset();
                 break;
             default:
                 return false;
@@ -103,6 +110,11 @@ public class CustomView extends View {
         return true;
     }
 
-
+    public void eraseAll() {
+        path = new Path();
+        paths.clear();
+        drawCanvas.drawColor(Color.WHITE);
+        invalidate();
+    }
 
 }

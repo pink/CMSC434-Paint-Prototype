@@ -2,22 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <item
-        android:id="@+id/action_erase"
-        android:title="@string/action_erase"
-        android:icon="@drawable/ic_eraser_white_24dp"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_delete"
         android:title="@string/action_delete"
         android:icon="@drawable/ic_delete_white_24dp"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_undo"
-        android:title="@string/action_undo"
-        android:icon="@drawable/ic_undo_variant_white_24dp"
         app:showAsAction="always" />
 
     <item
@@ -33,8 +22,14 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_save"
-        android:title="@string/action_save"
-        android:icon="@drawable/ic_sd_white_24dp"
+        android:id="@+id/action_opacity"
+        android:title="@string/action_erase"
+        android:icon="@drawable/opacity"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/action_undo"
+        android:icon="@drawable/share"
         app:showAsAction="always" />
 </menu>
