@@ -10,5 +10,5 @@ https://youtu.be/vf-v_XJr3NQ
 
 ## Resources Used
  - [Android Drawing App Tutorial Part 1](http://www.valokafor.com/android-drawing-app-tutorial-part-1/)
- - [LobsterPicker](https://github.com/LarsWerkman/Lobsterpicker)
+ - [Android Material Color Picker](https://github.com/Pes8/android-material-color-picker-dialog)
  
